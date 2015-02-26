@@ -1,18 +1,20 @@
 from flask import g
 import random
 
+# query helper function
 def query_db(query, args=(), one=False):
   cur = g.db.execute(query, args)
   rv = cur.fetchall()
   cur.close()
   return (rv[0] if rv else None) if one else rv
 
-# returns an list of tuples
+# returns all contracts where email is buyer or seller
 def contracts(email):
   return query_db('SELECT * FROM contracts WHERE buyer = ? OR seller = ?',
       [email, email])
 
 # pending contracts for buyer with email
+# a pending contract is a contract where paid_at is null
 def pending_contracts(email):
   return query_db('SELECT * FROM contracts WHERE buyer = ? AND paid_at ISNULL',
       [email])
