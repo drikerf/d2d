@@ -1,9 +1,13 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, session, request, redirect, url_for
 
 app = Flask(__name__)
+app.secret_key = 'supersecret'
 
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 def login():
+  if request.method == 'POST':
+    session['user'] = request.form['email']
+    return redirect(url_for('dashboard'))
   return render_template('login.html')
 
 @app.route('/dashboard')
