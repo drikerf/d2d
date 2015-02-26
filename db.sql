@@ -1,18 +1,18 @@
 -- Create tables for Lab2 D2D
 -- Usage: sqlite3 db/d2d.db < db.sql
 
+-- Drop existing tables
+DROP TABLE IF EXISTS shipments;
+DROP TABLE IF EXISTS contracts;
+DROP TABLE IF EXISTS packages;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS drivers;
+
 -- SQLite enable foreign key support
 -- In SQLite3 this is off by default and needs to be
 -- enabled _every_ connection for foreign key constraints
 -- to be working.
 PRAGMA foreign_keys = ON;
-
--- Drop existing tables
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS drivers;
-DROP TABLE IF EXISTS shipments;
-DROP TABLE IF EXISTS contracts;
-DROP TABLE IF EXISTS packages;
 
 -- User table
 -- An user can be both a Seller and a Buyer
@@ -56,6 +56,7 @@ CREATE TABLE contracts
 	ban TEXT, -- Seller bank account number
 	delivery_addr TEXT,
 	signed_at DATETIME,
+	paid_at DATETIME,
 	settled_at DATETIME,
 
 	FOREIGN KEY (seller) REFERENCES users(email),
