@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Dashboard</h1>
+<h1>Dashboard <small>Signed in as {{ session.get('user') }}</h1> 
 <hr />
 <h2>Pending Contracts</h2>
 <ul>

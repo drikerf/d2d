@@ -6,6 +6,15 @@ import d2d
 app = Flask(__name__)
 app.secret_key = 'supersecret'
 
+def simulate_shipment(cid):
+  # TODO brn, ban
+  brn, ban = 0, 0
+  did = d2d.assign_driver_to_delivery(cid, brn, ban)
+  d2d.pickup_delivery(cid, did)
+  d2d.dropoff_delivery(cid, did)
+  d2d.confirm_delivery(cid)
+  d2d.settle_contract(cid)
+
 def connect_db():
   rv = sqlite3.connect(os.path.join(app.root_path, 'db/d2d.db'))
   rv.row_factory = sqlite3.Row
@@ -26,6 +35,9 @@ def login():
   if session.get('user'):
     return redirect(url_for('dashboard'))
   if request.method == 'POST':
+    if not request.form['email']:
+      flash('Please provide an email')
+      return redirect(url_for('login'))
     try:
       g.db.execute('insert into users (email) values (?)', [request.form['email']])
       g.db.commit()
@@ -46,7 +58,6 @@ def dashboard():
 def new_contract():
   if request.method == 'POST':
     f = request.form
-    print f
     id = d2d.create_contract(f['sellerEmail'], f['buyerEmail'], f['pickupAddress'],
       f['routingNr'], f['accountNr'], f['deliveryAddress'])
     i = 1
@@ -68,8 +79,17 @@ def complete_contract(id):
   if request.method == 'POST':
     d2d.pay_contract(id)
     flash('Contract paid!')
+    simulate_shipment(id)
     return redirect(url_for('dashboard'))
-  return render_template('complete_contract.html', id=id)
+  else:
+    packages = d2d.packages_for_contract(id)
+    price = 0
+    for p in packages:
+      try:
+        price += p['price']
+      except TypeError:
+        pass # Price not int.
+  return render_template('complete_contract.html', id=id, price=price)
 
 @app.route('/shipment/<int:id>')
 def shipment(id):
