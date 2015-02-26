@@ -1,4 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>#Dashboard</h1>
+<h1>Dashboard</h1>
+<hr />
+<h2>Pending Contracts</h2>
+<ul>
+  <li><a href='{{url_for("complete_contract")}}'>CONTRACT ID</a></li>
+  <li><a href='{{url_for("complete_contract")}}'>CONTRACT ID</a></li>
+</ul>
+<h2>Shipment Status</h2>
+<ul>
+  <li><a href='{{url_for("shipment", id=1)}}'>CONTRACT ID</a></li>
+  <li><a href='{{url_for("shipment", id=2)}}'>CONTRACT ID</a></li>
+</ul>
 {% endblock %}

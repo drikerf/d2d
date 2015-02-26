@@ -1,5 +1,42 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>#New Contract</h1>
+<h1>New Contract</h1>
+<hr />
+<div class="container">
+  <form method='POST'>
+    <div class="col-md-4">
+      <h2>Seller information</h2>
+      <input type="text" name='sellerEmail' class="form-control" placeholder="Email address">
+      <br />
+      <input type="text" name='pickupAddress' class="form-control" placeholder="Pickup address">
+      <br />
+      <input type="text" name='routingNr' class="form-control" placeholder="Bank routing nr">
+      <br />
+      <input type="text" name='accountNr' class="form-control" placeholder="Bank account nr">
+      <br />
+      <h2>Buyer information</h2>
+      <input type="text" name='buyerEmail' class="form-control" placeholder="Email address">
+      <br />
+      <input type="text" name='deliveryAddress' class="form-control" placeholder="Delivery address">
+      <br />
+    </div>
+    <div class='col-md-4'>
+      <h2>Package information</h2>
+      <input type="text" name='price' class="form-control" placeholder="Price">
+      <br />
+      <input type="text" name='description' class="form-control" placeholder="Description">
+      <br />
+      <input type="text" name='height' class="form-control" placeholder="Height">
+      <br />
+      <input type="text" name='width' class="form-control" placeholder="Width">
+      <br />
+      <input type="text" name='length' class="form-control" placeholder="Length">
+      <br />
+      <input type="text" name='weight' class="form-control" placeholder="Weight">
+      <br />
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+    </div>
+  </form>
+</div>
 {% endblock %}
 
