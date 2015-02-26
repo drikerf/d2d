@@ -7,6 +7,13 @@
 -- to be working.
 PRAGMA foreign_keys = ON;
 
+-- Drop existing tables
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS drivers;
+DROP TABLE IF EXISTS shipments;
+DROP TABLE IF EXISTS contracts;
+DROP TABLE IF EXISTS packages;
+
 -- User table
 -- An user can be both a Seller and a Buyer
 CREATE TABLE users
@@ -23,16 +30,18 @@ CREATE TABLE drivers
 );
 
 -- Shipment table
-CREATE TABLE shipment
+CREATE TABLE shipments
 (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
-	driver INTEGER, -- Foreign key
+	contract INTEGER, -- Foreign key to contracts
+	driver INTEGER, -- Foreign key to driver
 	delivery_price REAL,
 	assigned_at DATETIME,
 	pickup_at DATETIME,
 	dropoff_at DATETIME,
 	confirmed_at DATETIME,
 
+	FOREIGN KEY (contract) REFERENCES contracts(id),
 	FOREIGN KEY (driver) REFERENCES drivers(id)
 );
 
@@ -42,7 +51,6 @@ CREATE TABLE contracts
 	id INTEGER PRIMARY KEY,
 	seller TEXT, -- Seller foreign key
 	buyer TEXT, -- Buyer foreign key
-	shipment INTEGER, -- Shipment foreign key
 	pickup_addr TEXT,
 	brn TEXT, -- Seller bank routing number
 	ban TEXT, -- Seller bank account number
@@ -51,8 +59,7 @@ CREATE TABLE contracts
 	settled_at DATETIME,
 
 	FOREIGN KEY (seller) REFERENCES users(email),
-	FOREIGN KEY (buyer) REFERENCES users(email),
-	FOREIGN KEY (shipment) REFERENCES shipment(id)
+	FOREIGN KEY (buyer) REFERENCES users(email)
 );
 
 -- Package table
