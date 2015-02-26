@@ -1,5 +1,5 @@
 -- Create tables for Lab2 D2D
--- Usage: sqlite3 d2d < db.sql
+-- Usage: sqlite3 db/d2d.db < db.sql
 
 -- SQLite enable foreign key support
 -- In SQLite3 this is off by default and needs to be
