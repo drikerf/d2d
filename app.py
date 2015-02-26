@@ -38,7 +38,11 @@ def login():
 
 @app.route('/dashboard')
 def dashboard():
-  return render_template('dashboard.html')
+  print session['user']
+  contracts = d2d.contracts(session['user'])
+  pending = d2d.pending_contracts(session['user'])
+  print contracts, pending
+  return render_template('dashboard.html', contracts=contracts, pending=pending)
 
 @app.route('/new', methods=['POST', 'GET'])
 def new_contract():
@@ -49,15 +53,19 @@ def new_contract():
         f['routingNr'], f['accountNr'], f['deliveryAddress'])
       d2d.add_package_to_contract(id, f['price'], f['description'], f['height'], f['width'],
         f['length'], f['weight'])
+      d2d.sign_contract(id)
     except KeyError:
       #TODO: Handle.
       return render_template('new_contract')
     return redirect(url_for('dashboard'))
   return render_template('new_contract.html')
 
-@app.route('/complete')
-def complete_contract():
-  return render_template('complete_contract.html')
+@app.route('/complete/<int:id>', methods=['POST', 'GET'])
+def complete_contract(id):
+  if request.method == 'POST':
+    d2d.pay_contract(id)
+    return redirect(url_for('dashboard'))
+  return render_template('complete_contract.html', id=id)
 
 @app.route('/shipment/<int:id>')
 def shipment(id):

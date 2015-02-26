@@ -4,12 +4,16 @@
 <hr />
 <h2>Pending Contracts</h2>
 <ul>
-  <li><a href='{{url_for("complete_contract")}}'>CONTRACT ID</a></li>
-  <li><a href='{{url_for("complete_contract")}}'>CONTRACT ID</a></li>
+  {% for p in pending %}
+  <li><a href='{{ url_for("complete_contract", id=p.id) }}'>{{ p.id }}</a></li>
+  {% endfor %}
 </ul>
 <h2>Shipment Status</h2>
 <ul>
-  <li><a href='{{url_for("shipment", id=1)}}'>CONTRACT ID</a></li>
-  <li><a href='{{url_for("shipment", id=2)}}'>CONTRACT ID</a></li>
+  {% for c in contracts %}
+  {% if c.paid_at or c.seller == session.get('user') %}
+  <li><a href='{{ url_for("shipment", id=c.id) }}'>{{ c.id }}</a></li>
+  {% endif %}
+  {% endfor %}
 </ul>
 {% endblock %}
