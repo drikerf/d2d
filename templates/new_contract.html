@@ -21,22 +21,45 @@
       <br />
     </div>
     <div class='col-md-4'>
-      <h2>Package information</h2>
-      <input type="text" name='price' class="form-control" placeholder="Price">
-      <br />
-      <input type="text" name='description' class="form-control" placeholder="Description">
-      <br />
-      <input type="text" name='height' class="form-control" placeholder="Height">
-      <br />
-      <input type="text" name='width' class="form-control" placeholder="Width">
-      <br />
-      <input type="text" name='length' class="form-control" placeholder="Length">
-      <br />
-      <input type="text" name='weight' class="form-control" placeholder="Weight">
-      <br />
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+      <button class="btn btn-lg btn-success btn-block" type="button" id="add_pkg_btn" onclick="add_package(this)">+</button>
+    </div>
+    <div class='col-md-4'>
+      <h2>Status</h2>
+      <h4>Delivery price: <span id="price">1000.0 SEK</span></h4>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign</button>
     </div>
   </form>
 </div>
+
+<script type="text/javascript">
+var pnr = 0;
+
+function calculate_delivery_price() {
+  var total_size = 0;
+  for (var i = 1; i <= pnr; i++) {
+    var height = document.getElementsByName("height_" + i)[0].value;
+    var width = document.getElementsByName("width_" + i)[0].value;
+    var length = document.getElementsByName("length_" + i)[0].value;
+    total_size += height*width*length/1000000;
+  }
+  document.getElementById("price").innerHTML = total_size*1000 + " SEK";
+}
+
+function add_package(e) {
+  pnr++;
+  var ne = document.createElement('div');
+  ne.innerHTML = ''
+      + '<h2>Package #' + pnr + '</h2>'
+      + '<input type="text" name="price_'+pnr+'" class="form-control" placeholder="Price"><br />'
+      + '<input type="text" name="description_'+pnr+'" class="form-control" placeholder="Description"><br />'
+      + '<input type="text" name="height_'+pnr+'" class="form-control" placeholder="Height" onkeyup="calculate_delivery_price()"><br />'
+      + '<input type="text" name="width_'+pnr+'" class="form-control" placeholder="Width" onkeyup="calculate_delivery_price()"><br />'
+      + '<input type="text" name="length_'+pnr+'" class="form-control" placeholder="Length" onkeyup="calculate_delivery_price()"><br />'
+      + '<input type="text" name="weight_'+pnr+'" class="form-control" placeholder="Weight"><br />';
+  e.parentNode.insertBefore(ne, e);
+}
+add_package(document.getElementById("add_pkg_btn"));
+calculate_delivery_price();
+</script>
 {% endblock %}
 
