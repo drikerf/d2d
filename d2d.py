@@ -66,7 +66,7 @@ def pay_contract(contractId):
 
 # return shipment details for contract id
 def shipment(contractId):
-  return query_db('SELECT * FROM shipments WHERE contract = ?', [contractId])
+  return query_db('SELECT * FROM shipments WHERE contract = ?', [contractId], one=True)
 
 # assigns a driver to the shipment for
 # contractId. brn and ban are the drivers

@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>#Shipment {{id}}</h1>
+<h1>#Shipment {{shipment.id}}</h1>
+<ul>
+  <li>Driver: {{ shipment.driver or 'No driver yet' }}</li>
+  <li>Assigned at: {{ shipment.assigned_at or 'Not assigned' }}</li>
+  <li>Picked up at: {{ shipment.pickup_at or 'Not picked up' }}</li>
+  <li>Dropped of at: {{ shipment.dropoff_at or 'Not dropped of' }}</li>
+  <li>Confirmed at: {{ shipment.confirmed_at or 'Not confirmed' }}</li>
+  <li>Delivery price: {{ shipment.delivery_price }}</li>
+</ul>
 {% endblock %}
 

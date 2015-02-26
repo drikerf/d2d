@@ -1,6 +1,6 @@
 import os
 from sqlite3 import dbapi2 as sqlite3
-from flask import Flask, render_template, session, request, redirect, url_for, g
+from flask import Flask, render_template, session, request, redirect, url_for, g, get_flashed_messages, flash
 import d2d
 
 app = Flask(__name__)
@@ -38,25 +38,28 @@ def login():
 
 @app.route('/dashboard')
 def dashboard():
-  print session['user']
   contracts = d2d.contracts(session['user'])
   pending = d2d.pending_contracts(session['user'])
-  print contracts, pending
   return render_template('dashboard.html', contracts=contracts, pending=pending)
 
 @app.route('/new', methods=['POST', 'GET'])
 def new_contract():
   if request.method == 'POST':
     f = request.form
-    try:
-      id = d2d.create_contract(f['sellerEmail'], f['buyerEmail'], f['pickupAddress'],
-        f['routingNr'], f['accountNr'], f['deliveryAddress'])
-      d2d.add_package_to_contract(id, f['price'], f['description'], f['height'], f['width'],
-        f['length'], f['weight'])
-      d2d.sign_contract(id)
-    except KeyError:
-      #TODO: Handle.
-      return render_template('new_contract')
+    print f
+    id = d2d.create_contract(f['sellerEmail'], f['buyerEmail'], f['pickupAddress'],
+      f['routingNr'], f['accountNr'], f['deliveryAddress'])
+    i = 1
+    while True:
+      pc = str(i)
+      try:
+        d2d.add_package_to_contract(id, f['price_'+pc], f['description_'+pc], f['height_'+pc], f['width_'+pc],
+          f['length_'+pc], f['weight_'+pc])
+      except KeyError:
+        break
+      i += 1
+    d2d.sign_contract(id)
+    flash('Contract added!')
     return redirect(url_for('dashboard'))
   return render_template('new_contract.html')
 
@@ -64,12 +67,14 @@ def new_contract():
 def complete_contract(id):
   if request.method == 'POST':
     d2d.pay_contract(id)
+    flash('Contract paid!')
     return redirect(url_for('dashboard'))
   return render_template('complete_contract.html', id=id)
 
 @app.route('/shipment/<int:id>')
 def shipment(id):
-  return render_template('shipment.html', id=id)
+  shipment = d2d.shipment(id)
+  return render_template('shipment.html', shipment=shipment)
 
 @app.route('/logout')
 def logout():
