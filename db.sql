@@ -58,6 +58,7 @@ CREATE TABLE contracts
 	signed_at DATETIME,
 	paid_at DATETIME,
 	settled_at DATETIME,
+	declined INTEGER,
 
 	FOREIGN KEY (seller) REFERENCES users(email),
 	FOREIGN KEY (buyer) REFERENCES users(email)
