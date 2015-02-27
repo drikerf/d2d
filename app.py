@@ -91,6 +91,12 @@ def complete_contract(id):
         pass # Price not int.
   return render_template('complete_contract.html', id=id, price=price)
 
+@app.route('/decline/<int:id>')
+def decline_contract(id):
+  d2d.decline_contract(id)
+  flash('Contract was declined')
+  return redirect('dashboard')
+
 @app.route('/shipment/<int:id>')
 def shipment(id):
   shipment = d2d.shipment(id)

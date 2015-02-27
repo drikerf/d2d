@@ -2,6 +2,9 @@
 {% block content %}
 <h1>#Shipment {{shipment.id}}</h1>
 <ul>
+  {% if shipment.declined %}
+  <li>Declined by buyer</li>
+  {% else %}
   <li>Paid at: {{ shipment.paid_at or 'Awaiting payment from buyer (' + shipment.buyer + ')' }}</li>
   <li>Driver: {{ shipment.driver or 'No driver yet' }}</li>
   <li>Assigned at: {{ shipment.assigned_at or 'Not assigned' }}</li>
@@ -9,6 +12,7 @@
   <li>Dropped of at: {{ shipment.dropoff_at or 'Not dropped of' }}</li>
   <li>Confirmed at: {{ shipment.confirmed_at or 'Not confirmed' }}</li>
   <li>Delivery price: {{ shipment.delivery_price }}</li>
+  {% endif %}
 </ul>
 {% endblock %}
 

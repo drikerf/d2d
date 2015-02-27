@@ -9,6 +9,8 @@
       <input type="text" name='creditcardNr' class="form-control" placeholder="Credit card nr">
       <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
     </form>
+    <hr />
+    <a href='{{ url_for('decline_contract', id=id) }}' class='btn btn-danger btn-lg btn-block'>Decline package</a>
   </div>
 </div>
 {% endblock %}
