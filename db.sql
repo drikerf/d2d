@@ -33,7 +33,7 @@ CREATE TABLE drivers
 CREATE TABLE shipments
 (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
-	contract INTEGER, -- Foreign key to contracts
+	contract INTEGER UNIQUE, -- Foreign key to contracts
 	driver INTEGER, -- Foreign key to driver
 	delivery_price REAL,
 	assigned_at DATETIME,
