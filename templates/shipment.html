@@ -2,6 +2,7 @@
 {% block content %}
 <h1>#Shipment {{shipment.id}}</h1>
 <ul>
+  <li>Paid at: {{ shipment.paid_at or 'Awaiting payment from buyer' }}</li>
   <li>Driver: {{ shipment.driver or 'No driver yet' }}</li>
   <li>Assigned at: {{ shipment.assigned_at or 'Not assigned' }}</li>
   <li>Picked up at: {{ shipment.pickup_at or 'Not picked up' }}</li>
