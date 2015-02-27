@@ -14,7 +14,7 @@ def contracts(email):
       [email, email])
 
 def all_undelivered_contracts():
-    return query_db('SELECT * FROM contracts WHERE paid_at ISNULL AND settled_at ISNULL AND declined ISNULL')
+    return query_db('SELECT * FROM contracts WHERE paid_at NOTNULL AND settled_at ISNULL AND declined ISNULL')
 
 # pending contracts for buyer with email
 # a pending contract is a contract where paid_at is null
