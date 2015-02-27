@@ -6,7 +6,7 @@
   <form method='POST'>
     <div class="col-md-4">
       <h2>Seller information</h2>
-      <input type="text" name='sellerEmail' class="form-control" placeholder="Email address">
+	  <input type="text" name='sellerEmail' class="form-control" placeholder="Email address" value="{{ session.get('user') }}">
       <br />
       <input type="text" name='pickupAddress' class="form-control" placeholder="Pickup address">
       <br />
@@ -52,10 +52,10 @@ function add_package(e) {
       + '<h2>Package #' + pnr + '</h2>'
       + '<input type="text" name="price_'+pnr+'" class="form-control" placeholder="Price"><br />'
       + '<input type="text" name="description_'+pnr+'" class="form-control" placeholder="Description"><br />'
-      + '<input type="text" name="height_'+pnr+'" class="form-control" placeholder="Height" onkeyup="calculate_delivery_price()"><br />'
-      + '<input type="text" name="width_'+pnr+'" class="form-control" placeholder="Width" onkeyup="calculate_delivery_price()"><br />'
-      + '<input type="text" name="length_'+pnr+'" class="form-control" placeholder="Length" onkeyup="calculate_delivery_price()"><br />'
-      + '<input type="text" name="weight_'+pnr+'" class="form-control" placeholder="Weight"><br />';
+      + '<input type="text" name="height_'+pnr+'" class="form-control" placeholder="Height (cm)" onkeyup="calculate_delivery_price()"><br />'
+      + '<input type="text" name="width_'+pnr+'" class="form-control" placeholder="Width (cm)" onkeyup="calculate_delivery_price()"><br />'
+      + '<input type="text" name="length_'+pnr+'" class="form-control" placeholder="Length (cm)" onkeyup="calculate_delivery_price()"><br />'
+      + '<input type="text" name="weight_'+pnr+'" class="form-control" placeholder="Weight (g)"><br />';
   e.parentNode.insertBefore(ne, e);
 }
 add_package(document.getElementById("add_pkg_btn"));
