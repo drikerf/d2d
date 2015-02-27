@@ -12,7 +12,20 @@
 <ul>
   {% for c in contracts %}
   {% if c.paid_at or c.seller == session.get('user') %}
-  <li><a href='{{ url_for("shipment", id=c.id) }}'>{{ c.id }}</a></li>
+  <li>
+	<a href='{{ url_for("shipment", id=c.id) }}'>{{ c.id }}</a>
+	<i>
+	  {% if not c.paid_at %}
+	    Awaiting payment from buyer
+	  {% elif not c.settled_at %}
+		Waiting for a driver to deliver the packages
+	  {% elif c.declied %}
+		Declined by buyer
+	  {% else %}
+		Settled
+	  {% endif %}
+	  </i>
+  </li>
   {% endif %}
   {% endfor %}
 </ul>
