@@ -16,7 +16,7 @@ def contracts(email):
 # pending contracts for buyer with email
 # a pending contract is a contract where paid_at is null
 def pending_contracts(email):
-  return query_db('SELECT * FROM contracts WHERE buyer = ? AND paid_at ISNULL AND declined NOTNULL',
+  return query_db('SELECT * FROM contracts WHERE buyer = ? AND paid_at ISNULL AND declined ISNULL',
       [email])
 
 # creates a contract
