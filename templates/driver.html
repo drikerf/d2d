@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Deliver a package</h1>
+<ul>
+{% for c in contracts %}
+{% if c.paid_at %}
+<li><a href='{{ url_for("deliver", id=c.id) }}'>{{ c.id }}</a></li>
+{% endif %}
+{% endfor %}
+{% endblock %}

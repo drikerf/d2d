@@ -16,7 +16,7 @@
       <div class="header">
         <nav>
           <ul class="nav nav-pills pull-right">
-            {% if session.get('user') %}
+            {% if session.get('user') and request.path == '/dashboard' %}
             <li role="presentation"><a href="{{url_for('new_contract')}}">New Contract</a></li>
             <li role="presentation"><a href="{{url_for('logout')}}">Logout</a></li>
             {% endif %}

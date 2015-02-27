@@ -15,12 +15,12 @@
   <li>
 	<a href='{{ url_for("shipment", id=c.id) }}'>{{ c.id }}</a>
 	<i>
-	  {% if not c.paid_at %}
-	    Awaiting payment from buyer
-	  {% elif not c.settled_at %}
-		Waiting for a driver to deliver the packages
-	  {% elif c.declied %}
+  {% if c.declined %}
 		Declined by buyer
+  {% elif not c.paid_at %}
+	    Awaiting payment from buyer
+  {% elif not c.settled_at %}
+		Waiting for a driver to deliver the packages
 	  {% else %}
 		Settled
 	  {% endif %}

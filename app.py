@@ -54,6 +54,20 @@ def dashboard():
   pending = d2d.pending_contracts(session['user'])
   return render_template('dashboard.html', contracts=contracts, pending=pending)
 
+@app.route('/driver')
+def driver():
+  contracts = d2d.all_undelivered_contracts()
+  print contracts
+  return render_template('driver.html', contracts=contracts)
+
+@app.route('/deliver/<int:id>', methods=['GET', 'POST'])
+def deliver(id):
+  if request.method == 'POST':
+    simulate_shipment(id)
+    flash('Ok!')
+    return redirect(url_for('driver'))
+  return render_template('deliver.html', id=id)
+
 @app.route('/new', methods=['POST', 'GET'])
 def new_contract():
   if request.method == 'POST':
@@ -79,7 +93,6 @@ def complete_contract(id):
   if request.method == 'POST':
     d2d.pay_contract(id)
     flash('Contract paid!')
-    simulate_shipment(id)
     return redirect(url_for('dashboard'))
   else:
     packages = d2d.packages_for_contract(id)
