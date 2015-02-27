@@ -108,3 +108,9 @@ def settle_contract(contractId):
   g.db.execute('UPDATE contracts SET settled_at = datetime() WHERE id = ?', [contractId])
   g.db.commit()
   return
+
+# Decline contract
+def decline_contract(contractId):
+    g.db.execute('UPDATE contracts SET declined = 1 WHERE id = ?', [contractId])
+    g.db.commit()
+    return
